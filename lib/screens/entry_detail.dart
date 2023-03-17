@@ -14,7 +14,9 @@ class EntryDetailScreen extends StatelessWidget {
         child: Column(
           children: [
             Text(item.date),
-            
+            Image.network(item.imageURL),
+            Text('Items: ${item.quantity}'),
+            Text('(${item.latitude}, ${item.longitude})')
           ],
         )
       ),

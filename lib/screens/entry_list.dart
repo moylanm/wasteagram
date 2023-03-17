@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:wasteagram/models/entry.dart';
 import 'package:wasteagram/screens/entry_detail.dart';
 import 'package:wasteagram/widgets/new_entry_fab.dart';
@@ -18,8 +17,7 @@ class _EntryListScreenState extends State<EntryListScreen> {
     return Scaffold(
       appBar: AppBar(title: const Text('Wasteagram')),
       body: StreamBuilder(
-        stream: FirebaseFirestore
-                  .instance
+        stream: FirebaseFirestore.instance
                   .collection('posts')
                   .orderBy('date', descending: true)
                   .snapshots(),
