@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:wasteagram/models/entry.dart';
 import 'package:wasteagram/screens/entry_detail.dart';
 import 'package:wasteagram/widgets/new_entry_fab.dart';
 
@@ -27,7 +28,7 @@ class _EntryListScreenState extends State<EntryListScreen> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return _itemBuilder(snapshot.data!.docs[index]);
+                return _itemBuilder(Entry.fromMap(snapshot.data!.docs[index]));
               }
             );
           } else {
@@ -40,12 +41,10 @@ class _EntryListScreenState extends State<EntryListScreen> {
     );
   }
 
-  Widget _itemBuilder(QueryDocumentSnapshot<Map<String, dynamic>> item) {
-    final timestamp = item['date'].toDate();
-    final formattedDate = DateFormat('EEEE, MMMM d, y').format(timestamp);
+  Widget _itemBuilder(Entry item) {
     return ListTile(
-      title: Text(formattedDate),
-      trailing: Text('${item['quantity']}'),
+      title: Text(item.date),
+      trailing: Text(item.quantity),
       onTap: () {
         Navigator.push(
           context,
