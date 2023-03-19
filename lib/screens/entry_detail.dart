@@ -12,10 +12,11 @@ class EntryDetailScreen extends StatelessWidget {
       appBar: AppBar(title: const Text('Wasteagram')),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(item.date),
+            Text(item.date, style: const TextStyle(fontSize: 25)),
             Image.network(item.imageURL),
-            Text('Items: ${item.quantity}'),
+            Text('Items: ${item.quantity}', style: const TextStyle(fontSize: 20)),
             Text('(${item.latitude}, ${item.longitude})')
           ],
         )
