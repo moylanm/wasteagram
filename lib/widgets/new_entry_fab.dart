@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:wasteagram/screens/new_entry.dart';
@@ -15,7 +17,7 @@ class NewEntryButton extends StatelessWidget {
           if (pickedImage != null && context.mounted) {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => NewEntryScreen(image: pickedImage))
+              MaterialPageRoute(builder: (context) => NewEntryScreen(image: File(pickedImage.path)))
             );
           }
         }
