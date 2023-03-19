@@ -26,7 +26,7 @@ class _EntryListScreenState extends State<EntryListScreen> {
             return ListView.builder(
               itemCount: snapshot.data!.docs.length,
               itemBuilder: (context, index) {
-                return _itemBuilder(Entry.fromMap(snapshot.data!.docs[index]));
+                return _itemBuilder(Entry.fromMap(snapshot.data!.docs[index].data()));
               }
             );
           } else {

@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Entry {
@@ -10,7 +9,7 @@ class Entry {
 
   Entry(this.date, this.imageURL, this.quantity, this.latitude, this.longitude);
 
-  Entry.fromMap(QueryDocumentSnapshot<Map<String, dynamic>> map) :
+  Entry.fromMap(Map<String, dynamic> map) :
     date = DateFormat('EEEE, MMMM d, y').format(map['date'].toDate()),
     imageURL = map['imageURL'],
     quantity = map['quantity'].toString(),
