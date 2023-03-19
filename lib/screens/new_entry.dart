@@ -2,12 +2,16 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:wasteagram/helpers/database_helper.dart';
+import 'package:wasteagram/helpers/storage_helper.dart';
 
 class NewEntryScreen extends StatefulWidget {
-  final XFile image;
+  final StorageHelper _storageHelper = StorageHelper();
+  final DatabaseHelper _databaseHelper = DatabaseHelper();
 
-  const NewEntryScreen({super.key, required this.image});
+  final File image;
+
+  NewEntryScreen({super.key, required this.image});
 
   @override
   State<NewEntryScreen> createState() => _NewEntryScreenState();
@@ -37,10 +41,7 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          FittedBox(
-            fit: BoxFit.fill,
-            child: Image.file(File(widget.image.path)),
-          ),
+          Image.file(File(widget.image.path)),
           TextFormField(
             keyboardType: TextInputType.number,
             inputFormatters: [
@@ -61,11 +62,23 @@ class _NewEntryScreenState extends State<NewEntryScreen> {
             child: Align(
               alignment: FractionalOffset.bottomCenter,
               child: ElevatedButton.icon(
-                onPressed:() {
+                onPressed:() async {
                   final form = _formKey.currentState;
                   if (form != null && form.validate()) {
                     form.save();
-                    // save to Firebase
+                    final downloadURL = await widget._storageHelper.uploadFile(widget.image);
+                    final entry = <String, dynamic>{
+                      'date': DateTime.now(),
+                      'imageURL': downloadURL,
+                      'quantity': _quantity,
+                      'latitude': '44.0582',
+                      'longitude': '121.3153'
+                    };
+
+                    await widget._databaseHelper.addEntry(entry);
+                    if (mounted) {
+                      Navigator.of(context).pop();
+                    }
                   }
                 },
                 icon: const Icon(Icons.cloud_upload),
